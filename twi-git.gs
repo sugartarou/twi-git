@@ -21,7 +21,7 @@ function search_and_mkIssue() {
     
     // titleとbodyの抽出
     var title = getTitle(tweet.text);
-    var body = getBody(tweet.text);
+    var body = getBody(tweet.text, tweet.entities.urls);
     
     // gitにissue登録
     git.makeIssue(title,body);
@@ -41,7 +41,7 @@ function getTitle(text){
   }
 };
 
-function getBody(text){
+function getBody(text, urls){
   var i = text.indexOf("body:");
   if(i==-1){
     return ""; 
@@ -61,5 +61,9 @@ function getBody(text){
     body = body.replace(query,"");
   }
   
+  //expand URL
+  for(var i=0; i<urls.length; i++){
+    body = body.replace(urls[i].url, urls[i].expanded_url);
+  }
   return body;
 };
