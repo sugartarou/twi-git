@@ -42,7 +42,9 @@ twi-git.gsを開き，search_and_mkIssue()のtokenの値のところに貼り付
 ![図2](https://user-images.githubusercontent.com/32073583/59142555-15f9cd80-89fb-11e9-824e-65d10097d986.png)  
 
 ## 使い方  
-twi-git.gsを開き，画面上部の「関数を選択」のプルダウンからsearch_and_mkIssueを選んで実行するだけです．  
+1. 自分で決めた検索用のハッシュタグなどをつけて，以下の形式に添ってツイートします．  
+![ツイート](https://user-images.githubusercontent.com/32073583/59144141-118ae000-8a0e-11e9-9e24-229a1c9b0961.png)
+1. twi-git.gsを開き，画面上部の「関数を選択」のプルダウンからsearch_and_mkIssueを選んで実行するだけです．   
 
 ## 定期的に実行する  
 定期的に実行するには，画面上部の「吹き出しに時計のアイコン」をクリックして，トリガーを設定してください．  
