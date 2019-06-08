@@ -10,6 +10,14 @@
 * 現時点（2019年6月）では重複登録を避けるために登録に使ったツイートは削除するようにしています．いずれ変わるかもしれません．変える方法を実装できるのであれば好きに改造してください．  
 
 ## 下準備
+1. Google Apps Scriptの初期設定など
+Google Apps Scriptのプロジェクトを作ってください．
+
+1. ライブラリの設定
+以下を参考にtwiter apiのライブラリとgithub apiのライブラリをロードしてください．  
+[twitter apiのライブラリ](https://qiita.com/expajp/items/7cc16378ee790f1d404f)  
+[github apiのライブラリ](https://matsubara0507.github.io/posts/2017-05-03-make-githubapi-lib-for-gas.html)
+
 1. Twitterの認証をする  
 **twitter.gs**を開き，画面上部の「関数を選択」のプルダウンからtwitterAuthorizeUrlを選んで実行してください．  
 エラーなく実行が終わったら，[Ctrl] + [Enter]でログを開いてください．  
