@@ -126,7 +126,7 @@ function create(userid, repo, token, option) {
     GitHubAPI.prototype.makeIssue = function (title,body,assignee,milestone,labels){
       if(!title){
         Logger.log("Error: title is undefined!! These are always required.\n");
-        return;
+        return -1;
       } 
       if(!body){
         body = "";

@@ -24,10 +24,12 @@ function search_and_mkIssue() {
     var body = getBody(tweet.text, tweet.entities.urls);
     
     // gitにissue登録
-    git.makeIssue(title,body);
+    ret = git.makeIssue(title,body);
     
     // tweetの削除
-    Twitter.mydelete(tweet.id_str)
+    if(ret!=-1 && title!="" ){
+      Twitter.mydelete(tweet.id_str)
+    }
   }
 };
 
