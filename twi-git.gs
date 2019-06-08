@@ -3,11 +3,11 @@ var query = "#Issue登録テスト"; //検索に使いたいハッシュタグ�
 
 function search_and_mkIssue() {
   //リポジトリオーナー
-  var owner = "sugartarou"; 
+  var owner = ""; 
   //リポジトリ名
-  var repo  = "mk_issue_test"; 
+  var repo  = ""; 
   //personal access token  with scope repo.  * go https://github.com/settings/tokens/new
-  var token = "09d98fc6298207be515bd261214f33348c4c3647"; 
+  var token = ""; 
   var option = null;
   var git = new GitHubAPI(owner,repo,token,option);
   
