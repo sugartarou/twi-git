@@ -47,3 +47,7 @@ twi-git.gsを開き，画面上部の「関数を選択」のプルダウンか�
 ## 定期的に実行する  
 定期的に実行するには，画面上部の「吹き出しに時計のアイコン」をクリックして，トリガーを設定してください．  
 ![コメント 2019-06-08 133306](https://user-images.githubusercontent.com/32073583/59142568-51949780-89fb-11e9-9b9f-1aa03cbc4841.png)  
+
+## 参考・引用  
+[【Twitter】GASで自分のツイートを定期RT/引用するbotを作った](https://qiita.com/expajp/items/7cc16378ee790f1d404f)
+[GitHub API を GAS でいい感じで叩くためのライブラリを作った (未完)](https://matsubara0507.github.io/posts/2017-05-03-make-githubapi-lib-for-gas.html)
