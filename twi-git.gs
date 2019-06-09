@@ -18,10 +18,13 @@ function search_and_mkIssue() {
     var tweet = tweets[i];
     
     Logger.log(tweet);    
+        
+    //短縮URLを拡張
+    expandURL(tweet);
     
     // titleとbodyの抽出
     var title = getTitle(tweet.text);
-    var body = getBody(tweet.text, tweet.entities.urls);
+    var body = getBody(tweet.text);
     
     // gitにissue登録
     ret = git.makeIssue(title,body);
@@ -30,6 +33,16 @@ function search_and_mkIssue() {
     if(ret!=-1 && title!="" ){
       Twitter.mydelete(tweet.id_str)
     }
+  }
+};
+
+function expandURL(tweet){
+  var urls = tweet.entities.urls;
+  //expand URL
+  //entities={urls=[{display_url=example.com, indices=[22, 45], expanded_url=http://example.com, url=https://t.co/DIlwkIBSPW}], 
+  for(var i=0; i<urls.length; i++){
+    tweet.text = tweet.text.replace(urls[i].url, urls[i].expanded_url);
+    //Logger.log(urls[i].expanded_url);
   }
 };
 
@@ -43,7 +56,7 @@ function getTitle(text){
   }
 };
 
-function getBody(text, urls){
+function getBody(text){
   var i = text.indexOf("body:");
   if(i==-1){
     return ""; 
@@ -63,9 +76,5 @@ function getBody(text, urls){
     body = body.replace(query,"");
   }
   
-  //expand URL
-  for(var i=0; i<urls.length; i++){
-    body = body.replace(urls[i].url, urls[i].expanded_url);
-  }
   return body;
 };
