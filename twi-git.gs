@@ -1,16 +1,50 @@
 var query = "#Issue登録テスト"; //検索に使いたいハッシュタグなど
 
+//リポジトリオーナー
+var owner = ""; 
+//リポジトリ名
+var repo  = ""; 
+//personal access token  with scope repo.  * go https://github.com/settings/tokens/new
+var token = ""; 
+var option = null;
+var git = GitHubAPI.create(owner,repo,token,option);
+
+git.getIssues = function(owner,repo){
+  var path = "/repos/" + owner + "/" + repo + "/issues";
+  var data = {};
+  return this.get(path, data);
+};
+
+git.makeIssue = function (title,body,assignee,milestone,labels){
+  if(!title){
+    Logger.log("Error: title is undefined!! These are always required.\n");
+    return -1;
+  } 
+  if(!body){
+    body = "";
+  }
+  if(!assignee){
+    assignee = "";
+  }
+  if(!milestone){
+    milestone = null;
+  }
+  if(!labels){
+    labels = [];
+  }
+  
+  var path = "/issues";
+  var data = {
+    "title" : title,
+    "body" : body,
+    "assignee" : assignee,
+    "milestone" : milestone,
+    "labels" : labels
+  };
+  return this.post(path, data);
+};
 
 function search_and_mkIssue() {
-  //リポジトリオーナー
-  var owner = ""; 
-  //リポジトリ名
-  var repo  = ""; 
-  //personal access token  with scope repo.  * go https://github.com/settings/tokens/new
-  var token = ""; 
-  var option = null;
-  var git = new GitHubAPI(owner,repo,token,option);
-  
   //search
   var ret = (Twitter.search(query))
   var tweets = ret.statuses
