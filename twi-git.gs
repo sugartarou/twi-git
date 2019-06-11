@@ -1,4 +1,5 @@
-var query = "#Issue登録テスト"; //検索に使いたいハッシュタグなど
+//検索に使いたいハッシュタグなど
+var query_submit = "#Issue登録テスト";   //Issue登録用のクエリ
 
 //リポジトリオーナー
 var owner = ""; 
@@ -44,27 +45,30 @@ git.makeIssue = function (title,body,assignee,milestone,labels){
   return this.post(path, data);
 };
 
-function search_and_mkIssue() {
-  //search
-  var ret = (Twitter.search(query))
+function twi_git() {
+  //submit Issue
+  submitIssue(Twitter.search(query_submit));
+};
+
+function submitIssue(ret){
   var tweets = ret.statuses
   for(var i=0; i<tweets.length; i++) {
     var tweet = tweets[i];
     
-    Logger.log(tweet);    
-        
+    Logger.log(tweet);
+    
     //短縮URLを拡張
     expandURL(tweet);
     
     // titleとbodyの抽出
     var title = getTitle(tweet.text);
-    var body = getBody(tweet.text);
+    var body = getBody(tweet.text, query_submit);
     
     // gitにissue登録
     ret = git.makeIssue(title,body);
     
     // tweetの削除
-    if(ret!=-1 && title!="" ){
+    if(ret!=-1 && title!=""){
       Twitter.mydelete(tweet.id_str)
     }
   }
@@ -90,7 +94,7 @@ function getTitle(text){
   }
 };
 
-function getBody(text){
+function getBody(text, query){
   var i = text.indexOf("body:");
   if(i==-1){
     return ""; 
