@@ -1,5 +1,6 @@
 //検索に使いたいハッシュタグなど
 var query_submit = "#Issue登録テスト";   //Issue登録用のクエリ
+var query_comment = "#Issueコメント追加"; //コメント追加用のクエリ
 
 //リポジトリオーナー
 var owner = ""; 
@@ -8,6 +9,7 @@ var repo  = "";
 //personal access token  with scope repo.  * go https://github.com/settings/tokens/new
 var token = ""; 
 var option = null;
+
 var git = GitHubAPI.create(owner,repo,token,option);
 
 git.getIssues = function(owner,repo){
@@ -45,9 +47,57 @@ git.makeIssue = function (title,body,assignee,milestone,labels){
   return this.post(path, data);
 };
 
+git.addComment = function(issueID,body){
+  var path = "/issues/" + issueID + "/comments";
+  
+  var data = {
+    "body":body
+  };
+  
+  return this.post(path, data);
+};
+
 function twi_git() {
   //submit Issue
   submitIssue(Twitter.search(query_submit));
+  
+  //Add comment to Issue
+  addComment(Twitter.search(query_comment));
+};
+
+function getIssueID(text){
+  text.replace(" ","");
+  var texts = text.split(/\r\n|\r|\n/);
+  for(var i=0; i<texts.length; i++){
+    var pos = texts[i].indexOf("issueID:");
+    if(pos!=-1){
+      return texts[i].slice(pos+8);
+    }
+  }
+};
+
+function addComment(ret){
+  var tweets = ret.statuses
+  for(var i=0; i<tweets.length; i++) {
+    var tweet = tweets[i];
+    
+    Logger.log(tweet);
+    
+    //短縮URLを拡張
+    expandURL(tweet);
+    
+    // issueID, bodyの抽出
+    var issueID = getIssueID(tweet.text);
+    var body = getBody(tweet.text, query_comment);
+    
+    // issue #issueIDにコメント追加
+    ret = git.addComment(issueID, body);
+    
+    // tweetの削除
+    if(ret!=-1 && body!=""){
+      Twitter.mydelete(tweet.id_str)
+    }
+  }
 };
 
 function submitIssue(ret){
