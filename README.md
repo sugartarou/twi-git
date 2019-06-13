@@ -17,8 +17,8 @@
 Google Apps Scriptのプロジェクトを作ってください．
 
 1. ライブラリの設定  
-以下を参考にtwiter apiのライブラリとgithub apiのライブラリをロードしてください．  
-[twitter apiのライブラリ](https://qiita.com/expajp/items/7cc16378ee790f1d404f)  
+以下を参考にtwiter apiで使うoauthのライブラリとgithub apiのライブラリをロードしてください．  
+[twitter apiで使うoauthのライブラリ](https://qiita.com/expajp/items/7cc16378ee790f1d404f)  
 [github apiのライブラリ](https://matsubara0507.github.io/posts/2017-05-03-make-githubapi-lib-for-gas.html)
 
 1. Twitterの認証をする  
