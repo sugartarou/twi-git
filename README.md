@@ -7,22 +7,23 @@
 1. ツイートの削除 *  
   
 となっています．
-
-
+  
 \* 現時点（2019年6月）では重複登録を避けるために登録に使ったツイートは削除するようにしています．いずれ変わるかもしれません．変える方法を実装できるのであれば好きに改造してください．  
 \* これによる弊害で，画像付きツイートでissue登録しても，ツイートと共に画像も消えますのでご注意を．
-
+  
 ## 下準備  
 1. Google Apps Scriptの初期設定など  
 	Google Apps Scriptのプロジェクトを新規で作ってください．
   
 1. ライブラリの設定  
-	画面上部，「リソース」→「ライブラリ」と進んで，twiter apiで使うoauthのライブラリとgithub apiのライブラリを追加してください．  
-	oauthのプロジェクトキー： Mb2Vpd5nfD3Pz-_a-39Q4VfxhMjh3Sh48  
-	GitHubAPIのプロジェクトキー： MpVhtQfIUrL3OfsqY2BMtnIv0J4XZf0PJ  
-	
-	![リソースライブラリ](https://user-images.githubusercontent.com/32073583/59479479-25b06080-8e98-11e9-9a59-63f7b1541918.png)  
-	  
+	画面上部，「リソース」→「ライブラリ」と進んで，twiter apiで使うoauthのライブラリとgithub apiのライブラリを追加してください．  	
+
+	|タイトル | プロジェクトキー | バージョン|
+	|:--- | :---: | :---:|
+	|OAuth1 | Mb2Vpd5nfD3Pz-\_a-39Q4VfxhMjh3Sh48 | 7|
+	|GitHubAPI | MpVhtQfIUrL3OfsqY2BMtnIv0J4XZf0PJ | 6|  
+
+  	![リソースライブラリ](https://user-images.githubusercontent.com/32073583/59479479-25b06080-8e98-11e9-9a59-63f7b1541918.png)  	  
 	![ライブラリ追加](https://user-images.githubusercontent.com/32073583/59479420-ea159680-8e97-11e9-8e1a-bb0817bb040a.png)  
   
 1. Twitterの認証をする  
