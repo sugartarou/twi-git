@@ -1,5 +1,5 @@
 //検索に使いたいハッシュタグなど
-var query_submit = "#Issue登録テスト";   //Issue登録用のクエリ
+var query_submit  = "#Issue登録テスト";  //Issue登録用のクエリ
 var query_comment = "#Issueコメント追加"; //コメント追加用のクエリ
 
 //リポジトリオーナー
@@ -126,12 +126,18 @@ function submitIssue(ret){
 
 function expandURL(tweet){
   var urls = tweet.entities.urls;
-  //expand URL
-  //entities={urls=[{display_url=example.com, indices=[22, 45], expanded_url=http://example.com, url=https://t.co/DIlwkIBSPW}], 
+  //通常のURLを拡張
   for(var i=0; i<urls.length; i++){
     tweet.text = tweet.text.replace(urls[i].url, urls[i].expanded_url);
-    //Logger.log(urls[i].expanded_url);
   }
+  
+  //画像のURLを拡張
+  if(tweet.extended_entities){
+    var medias = tweet.extended_entities.media;
+    for(var i=0; i<medias.length; i++){
+      tweet.text = tweet.text.replace(medias[i].url, medias[i].media_url_https);
+    }  
+  }  
 };
 
 function getTitle(text){
@@ -160,8 +166,15 @@ function getBody(text, query){
   }
   
   //trim query
-  if(body.match(query)){
-    body = body.replace(query,"");
+  body = body.replace(query,"");
+  
+  //引用したツイートを展開
+  var url = text.match(/https:\/\/twitter\.com\/[a-zA-Z0-9]*\/status\/[0-9]*/);
+  body = body.replace(url,"");
+  if(tweet.quoted_status){
+    var quoted_tweet = tweet.quoted_status;
+    expandURL(quoted_tweet);
+    body += "\n\n---引用元----\n" + quoted_tweet.text;
   }
   
   return body;
