@@ -289,3 +289,10 @@ Twitter.mydelete = function (id) {
   data = {}
   return this.api(path, data);
 };
+
+//ツイートの取得
+Twitter.getTweet = function(id) {
+  var path = "statuses/show/"+id;
+  data = {};
+  return this.api(path, data);
+};

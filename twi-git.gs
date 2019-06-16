@@ -88,7 +88,7 @@ function addComment(ret){
     
     // issueID, bodyの抽出
     var issueID = getIssueID(tweet.text);
-    var body = getBody(tweet.text, query_comment);
+    var body = getBody(tweet, query_comment);
     
     // issue #issueIDにコメント追加
     ret = git.addComment(issueID, body);
@@ -112,7 +112,7 @@ function submitIssue(ret){
     
     // titleとbodyの抽出
     var title = getTitle(tweet.text);
-    var body = getBody(tweet.text, query_submit);
+    var body = getBody(tweet, query_submit);
     
     // gitにissue登録
     ret = git.makeIssue(title,body);
@@ -131,13 +131,34 @@ function expandURL(tweet){
     tweet.text = tweet.text.replace(urls[i].url, urls[i].expanded_url);
   }
   
-  //画像のURLを拡張
+  //動画/画像のURLを拡張
   if(tweet.extended_entities){
-    var medias = tweet.extended_entities.media;
+    var medias = tweet.extended_entities.media;    
     for(var i=0; i<medias.length; i++){
-      tweet.text = tweet.text.replace(medias[i].url, medias[i].media_url_https);
+      //短縮URLを削除
+      tweet.text = tweet.text.replace(medias[i].url, "");
+      //動画のURLを追加
+      if(medias[i].video_info){
+        tweet.text = tweet.text + medias[i].video_info.variants[0].url + "\n";
+      }
+      else{ //画像のURLを追加
+        tweet.text = tweet.text + medias[i].media_url_https + "\n";
+      }
     }  
-  }  
+  }
+};
+
+function expandQUOTE(body, tweet){
+  var url = body.match(/https:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+/);
+  body = body.replace(url,"");
+  
+  if(tweet.is_quote_status){
+    var quoted_tweet = Twitter.getTweet(tweet.quoted_status_id_str);
+    expandURL(quoted_tweet);
+    body += "\n\n---引用元----\n" + quoted_tweet.text;
+    return expandQUOTE(body, quoted_tweet);
+  }
+  return body;
 };
 
 function getTitle(text){
@@ -150,7 +171,8 @@ function getTitle(text){
   }
 };
 
-function getBody(text, query){
+function getBody(tweet, query){
+  var text = tweet.text;  
   var i = text.indexOf("body:");
   if(i==-1){
     return ""; 
@@ -168,14 +190,8 @@ function getBody(text, query){
   //trim query
   body = body.replace(query,"");
   
-  //引用したツイートを展開
-  var url = text.match(/https:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+/);
-  body = body.replace(url,"");
-  if(tweet.quoted_status){
-    var quoted_tweet = tweet.quoted_status;
-    expandURL(quoted_tweet);
-    body += "\n\n---引用元----\n" + quoted_tweet.text;
-  }
+  //引用ツイートを展開(再帰)
+  body = expandQUOTE(body, tweet);
   
   return body;
 };
