@@ -169,7 +169,7 @@ function getBody(text, query){
   body = body.replace(query,"");
   
   //引用したツイートを展開
-  var url = text.match(/https:\/\/twitter\.com\/[a-zA-Z0-9]*\/status\/[0-9]*/);
+  var url = text.match(/https:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+/);
   body = body.replace(url,"");
   if(tweet.quoted_status){
     var quoted_tweet = tweet.quoted_status;
