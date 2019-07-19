@@ -149,13 +149,18 @@ function expandURL(tweet){
 };
 
 function expandQUOTE(body, tweet){
+  //引用したツイートのURLを削除
   var url = body.match(/https:\/\/twitter\.com\/[a-zA-Z0-9_]{1,15}\/status\/[0-9]+/);
   body = body.replace(url,"");
   
+  //引用したツイートの本文をbodyに追加
   if(tweet.is_quote_status){
+    //引用したツイートを取得
     var quoted_tweet = Twitter.getTweet(tweet.quoted_status_id_str);
+    //引用したツイートの短縮URLを展開
     expandURL(quoted_tweet);
     body += "\n\n---引用元----\n" + quoted_tweet.text;
+    //引用したツイートが引用ツイートだった場合は再帰する
     return expandQUOTE(body, quoted_tweet);
   }
   return body;
